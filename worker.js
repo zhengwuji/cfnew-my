@@ -787,20 +787,8 @@ export default {
                         }
                     }
                     // 优先检查Cookie中的语言设置
-                    const cookieHeader = request.headers.get('Cookie') || '';
-                    let langFromCookie = null;
-                    if (cookieHeader) {
-                        const cookies = cookieHeader.split(';').map(c => c.trim());
-                        for (const cookie of cookies) {
-                            if (cookie.startsWith('preferredLanguage=')) {
-                                langFromCookie = cookie.split('=')[1];
-                                break;
-                            }
-                        }
-                    }
-                    
-                        const lang = 'zh-CN';
-                        const langAttr = 'zh-CN';
+                    const lang = 'zh-CN';
+                    const langAttr = 'zh-CN';
                         
                         const t = {
                             title: '终端',
@@ -830,8 +818,9 @@ export default {
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: "Consolas", "Monaco", "Courier New", monospace;
+            font-weight: bold;
             background: #000 url('/bg-image') center center / cover no-repeat fixed;
-            color: #ffffff; min-height: 100vh;
+            color: #ffffff; font-weight: bold; min-height: 100vh;
             overflow-x: hidden; position: relative;
             display: flex; justify-content: center; align-items: center;
             -webkit-font-smoothing: subpixel-antialiased;
@@ -903,7 +892,7 @@ export default {
         .terminal-button:nth-child(2) { background: #ffbd2e; }
         .terminal-button:nth-child(3) { background: transparent; }
         .terminal-title {
-            margin-left: 15px; color: #ffffff;
+            margin-left: 15px; color: #ffffff; font-weight: bold;
             font-size: 15px; font-weight: bold;
             -webkit-font-smoothing: subpixel-antialiased;
             -moz-osx-font-smoothing: auto;
@@ -936,7 +925,7 @@ export default {
             text-rendering: geometricPrecision;
         }
         .terminal-prompt {
-            color: #ffffff; margin-right: 10px;
+            color: #ffffff; font-weight: bold; margin-right: 10px;
             font-weight: bold;
             -webkit-font-smoothing: subpixel-antialiased;
             -moz-osx-font-smoothing: auto;
@@ -944,15 +933,15 @@ export default {
         }
         .terminal-input {
             background: transparent; border: none; outline: none;
-            color: #ffffff; font-family: "Consolas", "Monaco", "Courier New", monospace;
+            color: #ffffff; font-weight: bold; font-family: "Consolas", "Monaco", "Courier New", monospace;
             font-size: 15px; flex: 1;
-            caret-color: #ffffff;
+            caret-color: #ffffff; font-weight: bold;
             -webkit-font-smoothing: subpixel-antialiased;
             -moz-osx-font-smoothing: auto;
             text-rendering: geometricPrecision;
         }
         .terminal-input::placeholder {
-            color: #ffffff; opacity: 1;
+            color: #ffffff; font-weight: bold; opacity: 1;
             -webkit-font-smoothing: subpixel-antialiased;
             -moz-osx-font-smoothing: auto;
             text-rendering: geometricPrecision;
@@ -961,7 +950,7 @@ export default {
         input::-webkit-input-placeholder,
         input::-moz-placeholder,
         input:-ms-input-placeholder {
-            color: #ffffff !important;
+            color: #ffffff; font-weight: bold !important;
             opacity: 1 !important;
             -webkit-font-smoothing: subpixel-antialiased !important;
             -moz-osx-font-smoothing: auto !important;
@@ -974,26 +963,26 @@ export default {
             margin-left: 2px;
         }
         .terminal-output {
-            color: #ffffff; margin: 5px 0;
+            color: #ffffff; font-weight: bold; margin: 5px 0;
             -webkit-font-smoothing: subpixel-antialiased;
             -moz-osx-font-smoothing: auto;
             text-rendering: geometricPrecision;
         }
         .terminal-error {
-            color: #ffffff; margin: 5px 0;
+            color: #ffffff; font-weight: bold; margin: 5px 0;
             -webkit-font-smoothing: subpixel-antialiased;
             -moz-osx-font-smoothing: auto;
             text-rendering: geometricPrecision;
         }
         .terminal-success {
-            color: #ffffff; margin: 5px 0;
+            color: #ffffff; font-weight: bold; margin: 5px 0;
             -webkit-font-smoothing: subpixel-antialiased;
             -moz-osx-font-smoothing: auto;
             text-rendering: geometricPrecision;
         }
         .matrix-text {
             position: fixed; top: 20px; right: 20px;
-            color: #ffffff; font-family: "Consolas", "Monaco", "Courier New", monospace;
+            color: #ffffff; font-weight: bold; font-family: "Consolas", "Monaco", "Courier New", monospace;
             font-size: 0.8rem; opacity: 1;
             -webkit-font-smoothing: subpixel-antialiased;
             -moz-osx-font-smoothing: auto;
@@ -1010,11 +999,6 @@ export default {
 </head>
 <body>
         <div class="matrix-text">${t.terminal}</div>
-        <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
-            <select id="languageSelector" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; padding: 8px 12px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 15px; cursor: pointer; text-shadow: none; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);" onchange="changeLanguage(this.value)">
-                <option value="zh" selected>🇨🇳 中文</option>
-            </select>
-        </div>
     <div class="terminal" id="terminalWindow">
         <div class="terminal-header" id="terminalHeader">
             <div class="terminal-buttons">
@@ -1064,7 +1048,7 @@ export default {
                 for (let j = 0; j < charCount; j++) {
                     const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
                     const brightness = Math.random() > 0.1 ? '#ffffff' : '#ffffff';
-                    text += '<span style="color: ' + brightness + ';">' + char + '</span><br>';
+                    text += '<span style="color: ' + brightness + '; font-weight: bold;">' + char + '</span><br>';
                 }
                 column.innerHTML = text;
                 matrixContainer.appendChild(column);
@@ -1078,8 +1062,10 @@ export default {
                         if (chars.length > 0) {
                             const randomChar = chars[Math.floor(Math.random() * chars.length)];
                             randomChar.style.color = '#ffffff';
+                            randomChar.style.fontWeight = 'bold';
                             setTimeout(function() {
                                 randomChar.style.color = '#ffffff';
+                                randomChar.style.fontWeight = 'bold';
                             }, 200);
                         }
                     }
@@ -1155,51 +1141,6 @@ export default {
                 input.value = '';
             }
         }
-            
-            function changeLanguage(lang) {
-                localStorage.setItem('preferredLanguage', lang);
-                // 设置Cookie（有效期1年）
-                const expiryDate = new Date();
-                expiryDate.setFullYear(expiryDate.getFullYear() + 1);
-                document.cookie = 'preferredLanguage=' + lang + '; path=/; expires=' + expiryDate.toUTCString() + '; SameSite=Lax';
-                // 刷新页面，不使用URL参数
-                window.location.reload();
-            }
-            
-            // 页面加载时检查 localStorage 和 Cookie，并清理URL参数
-            window.addEventListener('DOMContentLoaded', function() {
-                function getCookie(name) {
-                    const value = '; ' + document.cookie;
-                    const parts = value.split('; ' + name + '=');
-                    if (parts.length === 2) return parts.pop().split(';').shift();
-                    return null;
-                }
-                
-                const savedLang = localStorage.getItem('preferredLanguage') || getCookie('preferredLanguage');
-                const urlParams = new URLSearchParams(window.location.search);
-                const urlLang = urlParams.get('lang');
-                
-                // 如果URL中有语言参数，移除它并设置Cookie
-                if (urlLang) {
-                    const currentUrl = new URL(window.location.href);
-                    currentUrl.searchParams.delete('lang');
-                    const newUrl = currentUrl.toString();
-                    
-                    // 设置Cookie
-                    const expiryDate = new Date();
-                    expiryDate.setFullYear(expiryDate.getFullYear() + 1);
-                    document.cookie = 'preferredLanguage=' + urlLang + '; path=/; expires=' + expiryDate.toUTCString() + '; SameSite=Lax';
-                    localStorage.setItem('preferredLanguage', urlLang);
-                    
-                    // 使用history API移除URL参数，不刷新页面
-                    window.history.replaceState({}, '', newUrl);
-                } else if (savedLang) {
-                    // 如果localStorage中有但Cookie中没有，同步到Cookie
-                    const expiryDate = new Date();
-                    expiryDate.setFullYear(expiryDate.getFullYear() + 1);
-                    document.cookie = 'preferredLanguage=' + savedLang + '; path=/; expires=' + expiryDate.toUTCString() + '; SameSite=Lax';
-                }
-            });
         
         document.addEventListener('DOMContentLoaded', function() {
             // createMatrixRain(); // 已禁用动态背景
@@ -2090,20 +2031,7 @@ async function handleSubscriptionPage(request, user = null) {
     if (!user) user = at;
     
     const url = new URL(request.url);
-    // 优先检查Cookie中的语言设置
-    const cookieHeader = request.headers.get('Cookie') || '';
-    let langFromCookie = null;
-    if (cookieHeader) {
-        const cookies = cookieHeader.split(';').map(c => c.trim());
-        for (const cookie of cookies) {
-            if (cookie.startsWith('preferredLanguage=')) {
-                langFromCookie = cookie.split('=')[1];
-                break;
-            }
-        }
-    }
-    
-        const langAttr = 'zh-CN';
+    const langAttr = 'zh-CN';
         
         const t = {
                 title: '订阅中心',
@@ -2227,8 +2155,9 @@ async function handleSubscriptionPage(request, user = null) {
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: "Courier New", monospace;
+            font-weight: bold;
             background: #000 url('/bg-image') center center / cover no-repeat fixed;
-            color: #ffffff; min-height: 100vh;
+            color: #ffffff; font-weight: bold; min-height: 100vh;
             overflow-x: hidden; position: relative;
         }
         .matrix-bg {
@@ -2250,10 +2179,10 @@ async function handleSubscriptionPage(request, user = null) {
             background: linear-gradient(45deg, transparent, transparent, transparent);
             background-size: 200% 200%;
             -webkit-background-clip: text;
-            -webkit-text-fill-color: #ffffff;
+            -webkit-text-fill-color: #ffffff; font-weight: bold;
             background-clip: text;
         }
-        .subtitle { color: #ffffff; margin-bottom: 30px; font-size: 1.2rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1; }
+        .subtitle { color: #ffffff; font-weight: bold; margin-bottom: 30px; font-size: 1.2rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1; }
         .card {
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid #ffffff;
@@ -2270,7 +2199,7 @@ async function handleSubscriptionPage(request, user = null) {
         }
         .card-title {
             font-size: 1.8rem; margin-bottom: 20px;
-            color: #ffffff; text-shadow: none;
+            color: #ffffff; font-weight: bold; text-shadow: none;
             -webkit-font-smoothing: subpixel-antialiased;
             -moz-osx-font-smoothing: auto;
             text-rendering: geometricPrecision;
@@ -2284,7 +2213,7 @@ async function handleSubscriptionPage(request, user = null) {
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid #ffffff;
             border-radius: 8px;
-            padding: 15px 20px; color: #ffffff;
+            padding: 15px 20px; color: #ffffff; font-weight: bold;
             font-family: "Courier New", monospace; font-weight: bold;
             cursor: pointer; transition: all 0.4s ease;
             text-align: center; position: relative;
@@ -2324,7 +2253,7 @@ async function handleSubscriptionPage(request, user = null) {
             border: 1px solid #ffffff;
             border-radius: 8px;
             padding: 15px 30px;
-            color: #ffffff; font-family: "Courier New", monospace;
+            color: #ffffff; font-weight: bold; font-family: "Courier New", monospace;
             font-weight: bold; cursor: pointer;
             transition: all 0.4s ease; margin-right: 15px;
             text-shadow: none;
@@ -2357,7 +2286,7 @@ async function handleSubscriptionPage(request, user = null) {
             border-radius: 12px;
             padding: 15px;
             word-break: break-all; font-family: "Courier New", monospace;
-            color: #ffffff; margin-top: 20px; display: none;
+            color: #ffffff; font-weight: bold; margin-top: 20px; display: none;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             position: relative;
             overflow-wrap: break-word;
@@ -2377,7 +2306,7 @@ async function handleSubscriptionPage(request, user = null) {
         }
         .matrix-text {
             position: fixed; top: 20px; right: 20px;
-            color: #ffffff; font-family: "Consolas", "Monaco", "Courier New", monospace;
+            color: #ffffff; font-weight: bold; font-family: "Consolas", "Monaco", "Courier New", monospace;
             font-size: 0.8rem; opacity: 1;
             -webkit-font-smoothing: subpixel-antialiased;
             -moz-osx-font-smoothing: auto;
@@ -2390,15 +2319,13 @@ async function handleSubscriptionPage(request, user = null) {
                 font-size: 0.7rem;
             }
         }
+        #wkRegion option {
+            background: #000000;
+        }
     </style>
 </head>
 <body>
         <div class="matrix-text">${t.terminal}</div>
-        <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
-            <select id="languageSelector" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; padding: 8px 12px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 15px; cursor: pointer; text-shadow: none; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);" onchange="changeLanguage(this.value)">
-                <option value="zh" selected>🇨🇳 中文</option>
-            </select>
-        </div>
     <div class="container">
         <div class="header">
                 <h1 class="title">${t.title}</h1>
@@ -2423,25 +2350,25 @@ async function handleSubscriptionPage(request, user = null) {
         <div class="card">
                 <h2 class="card-title">${t.systemStatus}</h2>
             <div id="systemStatus" style="margin: 20px 0; padding: 15px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); position: relative; overflow: hidden; backdrop-filter: blur(10px);">
-                    <div style="color: #ffffff; margin-bottom: 15px; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; opacity: 1;">[ ${t.checking} ]</div>
-                    <div id="regionStatus" style="margin: 8px 0; color: #ffffff; font-family: 'Courier New', monospace; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.workerRegion}${t.checking}</div>
-                    <div id="geoInfo" style="margin: 8px 0; color: #ffffff; font-family: 'Courier New', monospace; font-size: 0.9rem; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.detectionMethod}${t.checking}</div>
-                    <div id="backupStatus" style="margin: 8px 0; color: #ffffff; font-family: 'Courier New', monospace; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.proxyIPStatus}${t.checking}</div>
-                    <div id="currentIP" style="margin: 8px 0; color: #ffffff; font-family: 'Courier New', monospace; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.currentIP}${t.checking}</div>
-                    <div id="regionMatch" style="margin: 8px 0; color: #ffffff; font-family: 'Courier New', monospace; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.regionMatch}${t.checking}</div>
-                    <div id="selectionLogic" style="margin: 8px 0; color: #ffffff; font-family: 'Courier New', monospace; font-size: 0.9rem; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.selectionLogic}${t.selectionLogicText}</div>
+                    <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; opacity: 1;">[ ${t.checking} ]</div>
+                    <div id="regionStatus" style="margin: 8px 0; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.workerRegion}${t.checking}</div>
+                    <div id="geoInfo" style="margin: 8px 0; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 0.9rem; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.detectionMethod}${t.checking}</div>
+                    <div id="backupStatus" style="margin: 8px 0; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.proxyIPStatus}${t.checking}</div>
+                    <div id="currentIP" style="margin: 8px 0; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.currentIP}${t.checking}</div>
+                    <div id="regionMatch" style="margin: 8px 0; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.regionMatch}${t.checking}</div>
+                    <div id="selectionLogic" style="margin: 8px 0; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 0.9rem; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.selectionLogic}${t.selectionLogicText}</div>
             </div>
         </div>
         <div class="card" id="configCard" style="display: none;">
                 <h2 class="card-title">${t.configManagement}</h2>
-            <div id="kvStatus" style="margin-bottom: 20px; padding: 10px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1; backdrop-filter: blur(10px);">
+            <div id="kvStatus" style="margin-bottom: 20px; padding: 10px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1; backdrop-filter: blur(10px);">
                     ${t.kvStatusChecking}
             </div>
             <div id="configContent" style="display: none;">
                 <form id="regionForm" style="margin-bottom: 20px;">
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.specifyRegion}</label>
-                        <select id="wkRegion" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                        <select id="wkRegion" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
                                 <option value="">${t.autoDetect}</option>
                                 <option value="US">${t.regionNames.US}</option>
                                 <option value="SG">${t.regionNames.SG}</option>
@@ -2454,114 +2381,114 @@ async function handleSubscriptionPage(request, user = null) {
                                 <option value="FI">${t.regionNames.FI}</option>
                                 <option value="GB">${t.regionNames.GB}</option>
                         </select>
-                            <small id="wkRegionHint" style="color: #ffffff; font-size: 0.85rem; display: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">⚠️ ${t.customIPDisabledHint}</small>
+                            <small id="wkRegionHint" style="color: #ffffff; font-weight: bold; font-size: 0.85rem; display: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">⚠️ ${t.customIPDisabledHint}</small>
                     </div>
-                        <button type="submit" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 12px 24px; color: #ffffff; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; margin-right: 10px; text-shadow: none; transition: all 0.4s ease; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; opacity: 1; backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">${t.saveRegion}</button>
+                        <button type="submit" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 12px 24px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; margin-right: 10px; text-shadow: none; transition: all 0.4s ease; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; opacity: 1; backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">${t.saveRegion}</button>
                 </form>
                 <form id="otherConfigForm" style="margin-bottom: 20px;">
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.protocolSelection}</label>
                         <div style="padding: 15px; background: rgba(0, 0, 0, 0.4); border: 1px solid #ffffff; border-radius: 8px; backdrop-filter: blur(10px);">
                             <div style="margin-bottom: 10px;">
-                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">
+                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; font-weight: bold; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">
                                     <input type="checkbox" id="ev" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                        <span style="font-size: 1.1rem; color: #ffffff; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.enableVLESS}</span>
+                                        <span style="font-size: 1.1rem; color: #ffffff; font-weight: bold; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.enableVLESS}</span>
                                 </label>
                             </div>
                             <div style="margin-bottom: 10px;">
-                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">
+                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; font-weight: bold; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">
                                     <input type="checkbox" id="et" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                        <span style="font-size: 1.1rem; color: #ffffff; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.enableTrojan}</span>
+                                        <span style="font-size: 1.1rem; color: #ffffff; font-weight: bold; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.enableTrojan}</span>
                                 </label>
                             </div>
                             <div style="margin-bottom: 10px;">
-                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">
+                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; font-weight: bold; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">
                                     <input type="checkbox" id="ex" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                        <span style="font-size: 1.1rem; color: #ffffff; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.enableXhttp}</span>
+                                        <span style="font-size: 1.1rem; color: #ffffff; font-weight: bold; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.enableXhttp}</span>
                                 </label>
                             </div>
                             <div style="margin-bottom: 10px;">
-                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">
+                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; font-weight: bold; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">
                                     <input type="checkbox" id="es" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                                        <span style="font-size: 1.1rem; color: #ffffff; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.enableShadowsocks}</span>
+                                        <span style="font-size: 1.1rem; color: #ffffff; font-weight: bold; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.enableShadowsocks}</span>
                                 </label>
                             </div>
                             <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid transparent;">
-                                    <label style="display: block; margin-bottom: 8px; color: #ffffff; font-size: 0.95rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.trojanPassword}</label>
-                                    <input type="text" id="tp" placeholder="${t.trojanPasswordPlaceholder}" style="width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 13px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
-                                    <small style="color: #ffffff; font-size: 0.8rem; display: block; margin-top: 5px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.trojanPasswordHint}</small>
+                                    <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; font-size: 0.95rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.trojanPassword}</label>
+                                    <input type="text" id="tp" placeholder="${t.trojanPasswordPlaceholder}" style="width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 13px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                                    <small style="color: #ffffff; font-weight: bold; font-size: 0.8rem; display: block; margin-top: 5px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.trojanPasswordHint}</small>
                             </div>
-                                <small style="color: #ffffff; font-size: 0.85rem; display: block; margin-top: 10px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.protocolHint}</small>
-                                <button type="button" id="saveProtocolBtn" style="margin-top: 15px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 10px 20px; color: #ffffff; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; text-shadow: none; transition: all 0.4s ease; width: 100%; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; opacity: 1; backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">${t.saveProtocol}</button>
+                                <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem; display: block; margin-top: 10px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.protocolHint}</small>
+                                <button type="button" id="saveProtocolBtn" style="margin-top: 15px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 10px 20px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; text-shadow: none; transition: all 0.4s ease; width: 100%; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; opacity: 1; backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">${t.saveProtocol}</button>
                         </div>
                     </div>
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.customHomepage}</label>
-                            <input type="text" id="customHomepage" placeholder="${t.customHomepagePlaceholder}" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
-                            <small style="color: #ffffff; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.customHomepageHint}</small>
+                            <input type="text" id="customHomepage" placeholder="${t.customHomepagePlaceholder}" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                            <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.customHomepageHint}</small>
                     </div>
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.customBackgroundImage}</label>
-                            <input type="text" id="customBackgroundImage" placeholder="${t.customBackgroundImagePlaceholder}" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
-                            <small style="color: #ffffff; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.customBackgroundImageHint}</small>
+                            <input type="text" id="customBackgroundImage" placeholder="${t.customBackgroundImagePlaceholder}" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                            <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.customBackgroundImageHint}</small>
                     </div>
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.customPath}</label>
-                            <input type="text" id="customPath" placeholder="例如: /mypath 或留空使用 UUID" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
-                            <small style="color: #ffffff; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">自定义订阅路径。留空则使用 UUID 作为路径。</small>
+                            <input type="text" id="customPath" placeholder="例如: /mypath 或留空使用 UUID" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                            <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">自定义订阅路径。留空则使用 UUID 作为路径。</small>
                     </div>
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.customIP}</label>
-                            <input type="text" id="customIP" placeholder="例如: 1.2.3.4:443" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
-                            <small style="color: #ffffff; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">自定义ProxyIP地址和端口</small>
+                            <input type="text" id="customIP" placeholder="例如: 1.2.3.4:443" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                            <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">自定义ProxyIP地址和端口</small>
                     </div>
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.preferredIPs}</label>
-                            <input type="text" id="preferredIPs" placeholder="例如: 1.2.3.4:443#香港节点,5.6.7.8:80#美国节点,example.com:8443#新加坡节点" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
-                            <small style="color: #ffffff; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">格式: IP:端口#节点名称 或 IP:端口 (无#则使用默认名称)。支持多个，用逗号分隔。<span style="color: #ffffff; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">API添加的IP会自动显示在这里。</span></small>
+                            <input type="text" id="preferredIPs" placeholder="例如: 1.2.3.4:443#香港节点,5.6.7.8:80#美国节点,example.com:8443#新加坡节点" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                            <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">格式: IP:端口#节点名称 或 IP:端口 (无#则使用默认名称)。支持多个，用逗号分隔。<span style="color: #ffffff; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">API添加的IP会自动显示在这里。</span></small>
                     </div>
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.preferredIPsURL}</label>
-                            <input type="text" id="preferredIPsURL" placeholder="默认: https://raw.githubusercontent.com/qwer-search/bestip/refs/heads/main/kejilandbestip.txt" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
-                            <small style="color: #ffffff; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">自定义优选IP列表来源URL，留空则使用默认地址</small>
+                            <input type="text" id="preferredIPsURL" placeholder="默认: https://raw.githubusercontent.com/qwer-search/bestip/refs/heads/main/kejilandbestip.txt" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                            <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">自定义优选IP列表来源URL，留空则使用默认地址</small>
                     </div>
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.socks5Config}</label>
-                            <input type="text" id="socksConfig" placeholder="例如: user:pass@host:port 或 host:port" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
-                            <small style="color: #ffffff; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">SOCKS5代理地址（用于特定协议），用于出站所有流量功能</small>
+                            <input type="text" id="socksConfig" placeholder="例如: user:pass@host:port 或 host:port" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                            <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">SOCKS5代理地址（用于特定协议），用于出站所有流量功能</small>
                     </div>
-                        <button type="submit" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 12px 24px; color: #ffffff; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; margin-right: 10px; text-shadow: none; transition: all 0.4s ease; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; opacity: 1; backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">${t.saveConfig}</button>
+                        <button type="submit" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 12px 24px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; margin-right: 10px; text-shadow: none; transition: all 0.4s ease; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; opacity: 1; backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">${t.saveConfig}</button>
                 </form>
                 
                     <h3 style="color: #ffffff; margin: 20px 0 15px 0; font-size: 1.2rem;">${t.advancedControl}</h3>
                 <form id="advancedConfigForm" style="margin-bottom: 20px;">
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.subscriptionConverter}</label>
-                            <input type="text" id="scu" placeholder="${t.subscriptionConverterPlaceholder}" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
-                            <small style="color: #ffffff; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.subscriptionConverterHint}</small>
+                            <input type="text" id="scu" placeholder="${t.subscriptionConverterPlaceholder}" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                            <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.subscriptionConverterHint}</small>
                     </div>
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.builtinPreferred}</label>
                         <div style="padding: 15px; background: rgba(0, 0, 0, 0.4); border: 1px solid #ffffff; border-radius: 8px; backdrop-filter: blur(10px);">
                             <div style="margin-bottom: 10px;">
-                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff;">
+                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; font-weight: bold;">
                                     <input type="checkbox" id="epd" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
                                         <span style="font-size: 1.1rem;">${t.enablePreferredDomain}</span>
                                 </label>
                             </div>
                             <div style="margin-bottom: 10px;">
-                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff;">
+                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; font-weight: bold;">
                                     <input type="checkbox" id="epi" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
                                         <span style="font-size: 1.1rem;">${t.enablePreferredIP}</span>
                                 </label>
                             </div>
                             <div style="margin-bottom: 10px;">
-                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff;">
+                                <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; font-weight: bold;">
                                     <input type="checkbox" id="egi" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
                                         <span style="font-size: 1.1rem;">${t.enableGitHubPreferred}</span>
                                 </label>
                             </div>
-                                <small style="color: #ffffff; font-size: 0.85rem; display: block; margin-top: 10px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.builtinPreferredHint}</small>
+                                <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem; display: block; margin-top: 10px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.builtinPreferredHint}</small>
                         </div>
                     </div>
                     <div style="margin-bottom: 15px;">
@@ -2570,11 +2497,11 @@ async function handleSubscriptionPage(request, user = null) {
                             <div style="margin-bottom: 15px;">
                                 <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">IP版本选择</label>
                                 <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff;">
+                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; font-weight: bold;">
                                         <input type="checkbox" id="ipv4Enabled" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
                                         <span style="font-size: 1rem;">IPv4</span>
                                     </label>
-                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff;">
+                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; font-weight: bold;">
                                         <input type="checkbox" id="ipv6Enabled" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
                                         <span style="font-size: 1rem;">IPv6</span>
                                     </label>
@@ -2583,74 +2510,74 @@ async function handleSubscriptionPage(request, user = null) {
                             <div style="margin-bottom: 10px;">
                                 <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">运营商选择</label>
                                 <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff;">
+                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; font-weight: bold;">
                                         <input type="checkbox" id="ispMobile" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
                                         <span style="font-size: 1rem;">移动</span>
                                     </label>
-                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff;">
+                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; font-weight: bold;">
                                         <input type="checkbox" id="ispUnicom" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
                                         <span style="font-size: 1rem;">联通</span>
                                     </label>
-                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff;">
+                                    <label style="display: inline-flex; align-items: center; cursor: pointer; color: #ffffff; font-weight: bold;">
                                         <input type="checkbox" id="ispTelecom" checked style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
                                         <span style="font-size: 1rem;">电信</span>
                                     </label>
                                 </div>
                             </div>
-                                <small style="color: #ffffff; font-size: 0.85rem; display: block; margin-top: 10px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">选择要使用的IP版本和运营商，未选中的将被过滤</small>
+                                <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem; display: block; margin-top: 10px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">选择要使用的IP版本和运营商，未选中的将被过滤</small>
                         </div>
                     </div>
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.allowAPIManagement}</label>
-                        <select id="apiEnabled" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                        <select id="apiEnabled" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
                                 <option value="">${t.apiEnabledDefault}</option>
                                 <option value="yes">${t.apiEnabledYes}</option>
                         </select>
-                            <small style="color: #ffffff; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.apiEnabledHint}</small>
+                            <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1;">${t.apiEnabledHint}</small>
                     </div>
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.regionMatching}</label>
-                        <select id="regionMatching" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                        <select id="regionMatching" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
                                 <option value="">${t.regionMatchingDefault}</option>
                                 <option value="no">${t.regionMatchingNo}</option>
                         </select>
-                            <small style="color: #ffffff; font-size: 0.85rem;">${t.regionMatchingHint}</small>
+                            <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem;">${t.regionMatchingHint}</small>
                     </div>
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.downgradeControl}</label>
-                        <select id="downgradeControl" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                        <select id="downgradeControl" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
                                 <option value="">${t.downgradeControlDefault}</option>
                                 <option value="no">${t.downgradeControlNo}</option>
                         </select>
-                            <small style="color: #ffffff; font-size: 0.85rem;">${t.downgradeControlHint}</small>
+                            <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem;">${t.downgradeControlHint}</small>
                     </div>
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.tlsControl}</label>
-                        <select id="portControl" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                        <select id="portControl" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
                                 <option value="">${t.tlsControlDefault}</option>
                                 <option value="yes">${t.tlsControlYes}</option>
                         </select>
-                            <small style="color: #ffffff; font-size: 0.85rem;">${t.tlsControlHint}</small>
+                            <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem;">${t.tlsControlHint}</small>
                     </div>
                     <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 8px; color: #ffffff; font-weight: bold; text-shadow: none; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision;">${t.preferredControl}</label>
-                        <select id="preferredControl" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
+                        <select id="preferredControl" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-size: 14px; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; backdrop-filter: blur(10px);">
                                 <option value="">${t.preferredControlDefault}</option>
                                 <option value="yes">${t.preferredControlYes}</option>
                         </select>
-                            <small style="color: #ffffff; font-size: 0.85rem;">${t.preferredControlHint}</small>
+                            <small style="color: #ffffff; font-weight: bold; font-size: 0.85rem;">${t.preferredControlHint}</small>
                     </div>
-                        <button type="submit" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 12px 24px; color: #ffffff; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; margin-right: 10px; text-shadow: none; transition: all 0.4s ease; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; opacity: 1; backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">${t.saveAdvanced}</button>
+                        <button type="submit" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 12px 24px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; margin-right: 10px; text-shadow: none; transition: all 0.4s ease; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; opacity: 1; backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">${t.saveAdvanced}</button>
                 </form>
-                <div id="currentConfig" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 15px; margin: 10px 0; font-family: 'Courier New', monospace; color: #ffffff; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1; backdrop-filter: blur(10px);">
+                <div id="currentConfig" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 15px; margin: 10px 0; font-family: 'Courier New', monospace; color: #ffffff; font-weight: bold; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1; backdrop-filter: blur(10px);">
                         ${t.loading}
                 </div>
-                <div id="pathTypeInfo" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 15px; margin: 10px 0; font-family: 'Courier New', monospace; color: #ffffff; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1; backdrop-filter: blur(10px);">
+                <div id="pathTypeInfo" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 15px; margin: 10px 0; font-family: 'Courier New', monospace; color: #ffffff; font-weight: bold; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; text-rendering: geometricPrecision; text-shadow: none; opacity: 1; backdrop-filter: blur(10px);">
                         <div style="font-weight: bold; margin-bottom: 8px; color: #ffffff; text-shadow: none;">${t.currentConfig}</div>
                         <div id="pathTypeStatus">${t.checking}</div>
                 </div>
-                    <button onclick="loadCurrentConfig()" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 12px 24px; color: #ffffff; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; margin-right: 10px; text-shadow: none; transition: all 0.4s ease; backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">${t.refreshConfig}</button>
-                    <button onclick="resetAllConfig()" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 12px 24px; color: #ffffff; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; text-shadow: none; transition: all 0.4s ease; backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">${t.resetConfig}</button>
+                    <button onclick="loadCurrentConfig()" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 12px 24px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; margin-right: 10px; text-shadow: none; transition: all 0.4s ease; backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">${t.refreshConfig}</button>
+                    <button onclick="resetAllConfig()" style="background: rgba(0, 0, 0, 0.6); border: 1px solid #ffffff; border-radius: 8px; padding: 12px 24px; color: #ffffff; font-weight: bold; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; text-shadow: none; transition: all 0.4s ease; backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">${t.resetConfig}</button>
             </div>
             <div id="statusMessage" style="display: none; padding: 10px; margin: 10px 0; border: 1px solid #ffffff; border-radius: 8px; background: rgba(0, 0, 0, 0.6); color: #ffffff; text-shadow: none; backdrop-filter: blur(10px);"></div>
         </div>
@@ -2674,44 +2601,6 @@ async function handleSubscriptionPage(request, user = null) {
                 subscriptionCopied: '订阅链接已复制',
                 autoSubscriptionCopied: '自动识别订阅链接已复制，客户端访问时会根据User-Agent自动识别并返回对应格式'
             };
-            
-            function changeLanguage(lang) {
-                localStorage.setItem('preferredLanguage', lang);
-                // 设置Cookie（有效期1年）
-                const expiryDate = new Date();
-                expiryDate.setFullYear(expiryDate.getFullYear() + 1);
-                document.cookie = 'preferredLanguage=' + lang + '; path=/; expires=' + expiryDate.toUTCString() + '; SameSite=Lax';
-                // 刷新页面，不使用URL参数
-                window.location.reload();
-            }
-            
-            // 页面加载时检查 localStorage 和 Cookie，并清理URL参数
-            window.addEventListener('DOMContentLoaded', function() {
-                const savedLang = localStorage.getItem('preferredLanguage') || getCookie('preferredLanguage');
-                const urlParams = new URLSearchParams(window.location.search);
-                const urlLang = urlParams.get('lang');
-                
-                // 如果URL中有语言参数，移除它并设置Cookie
-                if (urlLang) {
-                    const currentUrl = new URL(window.location.href);
-                    currentUrl.searchParams.delete('lang');
-                    const newUrl = currentUrl.toString();
-                    
-                    // 设置Cookie
-                    const expiryDate = new Date();
-                    expiryDate.setFullYear(expiryDate.getFullYear() + 1);
-                    document.cookie = 'preferredLanguage=' + urlLang + '; path=/; expires=' + expiryDate.toUTCString() + '; SameSite=Lax';
-                    localStorage.setItem('preferredLanguage', urlLang);
-                    
-                    // 使用history API移除URL参数，不刷新页面
-                    window.history.replaceState({}, '', newUrl);
-                } else if (savedLang) {
-                    // 如果localStorage中有但Cookie中没有，同步到Cookie
-                    const expiryDate = new Date();
-                    expiryDate.setFullYear(expiryDate.getFullYear() + 1);
-                    document.cookie = 'preferredLanguage=' + savedLang + '; path=/; expires=' + expiryDate.toUTCString() + '; SameSite=Lax';
-                }
-            });
         
         function tryOpenApp(schemeUrl, fallbackCallback, timeout) {
             timeout = timeout || 2500;
@@ -2776,6 +2665,7 @@ async function handleSubscriptionPage(request, user = null) {
                 urlElement.style.maxWidth = "100%";
                 urlElement.style.boxSizing = "border-box";
                 urlElement.style.color = "#ffffff";
+                urlElement.style.fontWeight = "bold";
                 urlElement.style.webkitFontSmoothing = "subpixel-antialiased";
                 urlElement.style.mozOsxFontSmoothing = "auto";
                 urlElement.style.textRendering = "geometricPrecision";
@@ -2825,6 +2715,7 @@ async function handleSubscriptionPage(request, user = null) {
                 urlElement.style.maxWidth = "100%";
                 urlElement.style.boxSizing = "border-box";
                 urlElement.style.color = "#ffffff";
+                urlElement.style.fontWeight = "bold";
                 urlElement.style.webkitFontSmoothing = "subpixel-antialiased";
                 urlElement.style.mozOsxFontSmoothing = "auto";
                 urlElement.style.textRendering = "geometricPrecision";
@@ -2891,7 +2782,7 @@ async function handleSubscriptionPage(request, user = null) {
                 for (let j = 0; j < charCount; j++) {
                     const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
                     const brightness = Math.random() > 0.1 ? '#ffffff' : '#ffffff';
-                    text += '<span style="color: ' + brightness + ';">' + char + '</span><br>';
+                    text += '<span style="color: ' + brightness + '; font-weight: bold;">' + char + '</span><br>';
                 }
                 column.innerHTML = text;
                 matrixContainer.appendChild(column);
@@ -2905,8 +2796,10 @@ async function handleSubscriptionPage(request, user = null) {
                         if (chars.length > 0) {
                             const randomChar = chars[Math.floor(Math.random() * chars.length)];
                             randomChar.style.color = '#ffffff';
+                            randomChar.style.fontWeight = 'bold';
                             setTimeout(function() {
                                 randomChar.style.color = '#ffffff';
+                                randomChar.style.fontWeight = 'bold';
                             }, 200);
                         }
                     }
@@ -3264,7 +3157,8 @@ async function handleSubscriptionPage(request, user = null) {
                     // 显示提示信息
                     if (wkRegionHint) {
                         wkRegionHint.style.display = 'block';
-                        wkRegionHint.style.color = '#ffaa00';
+                        wkRegionHint.style.color = '#ffffff';
+                        wkRegionHint.style.fontWeight = 'bold';
                     }
                 } else {
                     wkRegion.style.opacity = '1';
@@ -3331,7 +3225,8 @@ async function handleSubscriptionPage(request, user = null) {
             const statusDiv = document.getElementById('statusMessage');
             statusDiv.textContent = message;
             statusDiv.style.display = 'block';
-            statusDiv.style.color = type === 'success' ? '#ffffff' : '#ff0000';
+            statusDiv.style.color = '#ffffff';
+            statusDiv.style.fontWeight = 'bold';
             statusDiv.style.borderColor = 'transparent';
             
             setTimeout(function() {
