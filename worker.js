@@ -315,6 +315,55 @@ function parseAddressAndPort(input) {
 export default {
     async fetch(request, env, ctx) {
         try {
+            // 禁止爬虫访问
+            const userAgent = request.headers.get('User-Agent') || '';
+            const url = new URL(request.url);
+            
+            // 爬虫检测关键词列表
+            const botKeywords = [
+                'bot', 'crawler', 'spider', 'scraper', 'crawl', 'fetch',
+                'googlebot', 'bingbot', 'slurp', 'duckduckbot', 'baiduspider',
+                'yandexbot', 'sogou', 'exabot', 'facebot', 'ia_archiver',
+                'facebookexternalhit', 'twitterbot', 'rogerbot', 'linkedinbot',
+                'embedly', 'quora', 'pinterest', 'slackbot', 'redditbot',
+                'applebot', 'flipboard', 'tumblr', 'bitlybot', 'skypeuripreview',
+                'nuzzel', 'discordbot', 'qwantify', 'pinterestbot', 'bitrix',
+                'xing-contenttabreceiver', 'chrome-lighthouse', 'semrushbot',
+                'ahrefsbot', 'dotbot', 'mj12bot', 'megaindex', 'blexbot',
+                'petalbot', 'applebot', 'yisouspider', 'sogou', '360spider',
+                'bytespider', 'yandex', 'semrush', 'ahrefs', 'mj12',
+                'dotbot', 'blexbot', 'petalbot', 'lighthouse', 'headless',
+                'phantom', 'selenium', 'webdriver', 'puppeteer', 'playwright',
+                'curl', 'wget', 'python-requests', 'go-http-client', 'java',
+                'httpclient', 'okhttp', 'scrapy', 'mechanize', 'urllib',
+                'libwww-perl', 'lwp-trivial', 'masscan', 'nmap', 'nikto',
+                'sqlmap', 'zap', 'burp', 'nessus', 'openvas', 'acunetix',
+                'netsparker', 'appscan', 'qualys', 'rapid7', 'tenable',
+                'security', 'scanner', 'vulnerability', 'penetration', 'test'
+            ];
+            
+            // 检查 User-Agent 是否包含爬虫关键词
+            const isBot = botKeywords.some(keyword => 
+                userAgent.toLowerCase().includes(keyword.toLowerCase())
+            );
+            
+            // 检查是否是 robots.txt 请求
+            const isRobotsTxt = url.pathname.toLowerCase() === '/robots.txt';
+            
+            // 如果检测到是爬虫，返回 403 禁止访问
+            if (isBot || isRobotsTxt) {
+                if (isRobotsTxt) {
+                    // 对于 robots.txt 请求，返回禁止所有爬虫的规则
+                    return new Response('User-agent: *\nDisallow: /', {
+                        status: 200,
+                        headers: { 'Content-Type': 'text/plain' }
+                    });
+                }
+                return new Response('Access Denied', {
+                    status: 403,
+                    headers: { 'Content-Type': 'text/plain' }
+                });
+            }
             
             await initKVStore(env);
             
@@ -477,8 +526,6 @@ export default {
                 customPreferredIPs = [];
                 customPreferredDomains = [];
             }
-
-            const url = new URL(request.url);
 
             if (url.pathname.includes('/api/config')) {
                 const pathParts = url.pathname.split('/').filter(p => p);
